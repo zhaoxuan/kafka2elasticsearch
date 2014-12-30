@@ -68,6 +68,7 @@ public class ElasticsearchInsert implements Runnable {
                 .setBulkActions(this.bulkSize)
                 .setConcurrentRequests(ConfigFile.bulkConcurrent)
                 .build();
+
         LOG.info("init es");
     }
 
@@ -99,8 +100,10 @@ public class ElasticsearchInsert implements Runnable {
     public void run() {
         LOG.info("Inert ElasticSearch");
         LOG.info("thread num: " + threadNum);
+        System.out.println("thread num: " + threadNum);
         while(true) {
             ConsumerIterator<byte[], byte[]> msgStream = stream.iterator();
+            int num = 0;
 
             try {
                 while(msgStream.hasNext()) {
@@ -111,11 +114,13 @@ public class ElasticsearchInsert implements Runnable {
                     SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
                     json.put("@timestamp", sf.format(System.currentTimeMillis()));
 //                    insertES(json);
-                    System.out.println(json);
+                    num += 1;
                 }
+                Thread.sleep(1000);
             } catch (Exception e) {
                 LOG.info("failed to construct index request "+ e.getMessage());
             }
+            System.out.println(num);
         }
     }
 }
