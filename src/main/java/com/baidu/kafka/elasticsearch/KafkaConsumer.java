@@ -92,7 +92,6 @@ public class KafkaConsumer {
             KafkaConsumer kConsumer = new KafkaConsumer(zkHostPort, groupId, topic, esHost, bulksize, esCluster);
             kConsumer.run(threads);
             LOG.info( "End!" );
-            kConsumer.shutdown();
         } catch (Exception e) {
             System.out.println(e);
             LOG.info("{} " + e.getMessage());
