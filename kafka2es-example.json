@@ -1,0 +1,9 @@
+{
+  "zkHost":"10.202.75.25",
+  "esHost":"10.202.86.35",
+  "esCluster":"dtrace",
+  "kafkaTopic":"psop_dtrace_topic",
+  "kafkaGroup":"psop_es",
+  "threadNum":"3",
+  "bulkMaxSize":"3000"
+}
