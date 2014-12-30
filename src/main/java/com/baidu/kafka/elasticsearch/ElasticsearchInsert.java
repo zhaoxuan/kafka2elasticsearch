@@ -18,6 +18,7 @@ import org.elasticsearch.action.admin.cluster.node.info.NodeInfo;
 import org.elasticsearch.action.admin.cluster.node.info.NodesInfoRequest;
 import org.elasticsearch.action.admin.cluster.node.info.NodesInfoResponse;
 
+import org.elasticsearch.common.unit.TimeValue;
 import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -66,6 +67,7 @@ public class ElasticsearchInsert implements Runnable {
 
         bulkProcess = BulkProcessor.builder(client, new EsBulkProcessor())
                 .setBulkActions(this.bulkSize)
+                .setFlushInterval(new TimeValue(10000))
                 .setConcurrentRequests(ConfigFile.bulkConcurrent)
                 .build();
 
@@ -84,7 +86,7 @@ public class ElasticsearchInsert implements Runnable {
                 productName = "default";
             }
 
-            indexName = productName + dateTimeYMD[0];
+            indexName = productName + ":" + dateTimeYMD[0];
             typeName = "dtrace";
             document = jsonObject.toString();
 
